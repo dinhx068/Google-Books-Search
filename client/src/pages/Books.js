@@ -7,6 +7,11 @@ import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
 import { Input, TextArea, FormBtn } from "../components/Form";
 
+var searchBoxStyle = {
+  background: "#eee",
+  padding: "10px"
+};
+
 class Books extends Component {
   state = {
     books: [],
@@ -62,32 +67,21 @@ class Books extends Component {
               <h1>Google Books Search</h1>
               <p>Search for and Save Books of Interest</p>
             </Jumbotron>
-            <form>
+            <form className="border" style={searchBoxStyle}>
+              <label htmlFor="title">Book Search</label>
               <Input
                 value={this.state.title}
                 onChange={this.handleInputChange}
                 name="title"
-                placeholder="Title (required)"
+                placeholder="Search for the title of the book (required)"
               />
-              <Input
-                value={this.state.author}
-                onChange={this.handleInputChange}
-                name="author"
-                placeholder="Author (required)"
-              />
-              <TextArea
-                value={this.state.synopsis}
-                onChange={this.handleInputChange}
-                name="synopsis"
-                placeholder="Synopsis (Optional)"
-              />
-              <FormBtn
-                disabled={!(this.state.author && this.state.title)}
-                onClick={this.handleFormSubmit}
-              >
-                Submit Book
-              </FormBtn>
             </form>
+            <FormBtn
+              disabled={!this.state.title}
+              onClick={this.handleFormSubmit}
+            >
+              Search
+            </FormBtn>
           </Col>
         </Row>
       </Container>
