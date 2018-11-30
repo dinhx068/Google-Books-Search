@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import DeleteBtn from "../components/DeleteBtn";
+// import DeleteBtn from "../components/DeleteBtn";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
-import { List, ListItem } from "../components/List";
-import { Input, TextArea, FormBtn } from "../components/Form";
+// import { List, ListItem } from "../components/List";
+import { Input, FormBtn } from "../components/Form";
 
 var searchBoxStyle = {
   background: "#eee",
@@ -14,10 +14,11 @@ var searchBoxStyle = {
 
 class Books extends Component {
   state = {
-    books: [],
-    title: "",
-    author: "",
-    synopsis: ""
+    authors: [],
+    description: "",
+    image: "",
+    link: "",
+    title: ""
   };
 
   componentDidMount() {
@@ -27,7 +28,7 @@ class Books extends Component {
   loadBooks = () => {
     API.getBooks()
       .then(res =>
-        this.setState({ books: res.data, title: "", author: "", synopsis: "" })
+        this.setState({ authors: res.data, description: "", image: "", link: "", title: "" })
       )
       .catch(err => console.log(err));
   };
@@ -47,11 +48,24 @@ class Books extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.title && this.state.author) {
+    if (this.state.title) {
+      API.getBook({
+        title: this.state.title
+      })
+        .then(res => console.log(res)) /* this.loadBooks() */
+        .catch(err => console.log(err));
+    }
+  };
+
+  handleBookSave = event => {
+    event.preventDefault();
+    if (this.state.title) {
       API.saveBook({
-        title: this.state.title,
-        author: this.state.author,
-        synopsis: this.state.synopsis
+        authors: this.state.authors,
+        description: this.state.description,
+        image: this.state.image,
+        link: this.state.link,
+        title: this.state.title
       })
         .then(res => this.loadBooks())
         .catch(err => console.log(err));
